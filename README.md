@@ -24,6 +24,10 @@ B. S. Manjunath<sup>1,3</sup>
 
 </div>
 
+> [!NOTE]
+> **Code & Dataset Release — In Progress.**
+> The Wrivinder codebase and MC-Sat dataset are currently going through an **internal review and approval process**. We are also resolving licensing requirements to ensure everything is released under permissive, open-source terms. We will update this repository as soon as the release is cleared. Thank you for your patience!
+
 ---
 
 <div align="center">
