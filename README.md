@@ -27,7 +27,7 @@ B. S. Manjunath<sup>1,3</sup>
 ---
 
 <div align="center">
-<img src="static/images/sat_aligner_intro__with_zeniths.png" alt="Wrivinder pipeline overview" width="85%"/>
+<img src="static/images/sat_aligner_intro__with_zeniths.png" alt="Wrivinder pipeline overview" width="60%"/>
 
 *Wrivinder aggregates multiple ground images into a 3D reconstruction, renders a zenith view, and aligns it to a geo-registered satellite image to recover camera GPS coordinates — all zero-shot, with no paired supervision.*
 </div>
