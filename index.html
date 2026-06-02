@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wrivinder – CVPR 2026</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    /* ── Reset & base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue:      #1a56db;
+      --blue-dark: #1245b0;
+      --blue-pale: #e8f0fe;
+      --gray-50:   #f9fafb;
+      --gray-100:  #f3f4f6;
+      --gray-200:  #e5e7eb;
+      --gray-600:  #4b5563;
+      --gray-800:  #1f2937;
+      --gray-900:  #111827;
+      --max-w:     860px;
+      --radius:    10px;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--gray-800);
+      background: #fff;
+    }
+
+    a { color: var(--blue); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    img { max-width: 100%; height: auto; display: block; border-radius: var(--radius); margin: 0 auto; }
+
+    /* ── Layout helpers ── */
+    .container {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    section { padding: 3.5rem 0; }
+    section + section { border-top: 1px solid var(--gray-200); }
+
+    h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--gray-900);
+      margin-bottom: 1.25rem;
+      letter-spacing: -0.01em;
+      text-align: center;
+    }
+
+    h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--gray-900);
+      margin: 1.5rem 0 0.5rem;
+      text-align: center;
+    }
+
+    p { margin-bottom: 1rem; color: var(--gray-600); }
+    p:last-child { margin-bottom: 0; }
+
+    ul { padding-left: 1.4rem; color: var(--gray-600); }
+    ul li { margin-bottom: 0.5rem; }
+
+    /* ── Hero ── */
+    .hero {
+      background: linear-gradient(160deg, var(--gray-50) 0%, #eef2ff 100%);
+      padding: 3.5rem 0 2.5rem;
+      text-align: center;
+      border-bottom: 1px solid var(--gray-200);
+    }
+
+    .conference-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: var(--blue);
+      color: #fff;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      border-radius: 999px;
+      padding: 0.3rem 0.9rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .hero-title {
+      font-family: 'Source Serif 4', serif;
+      font-size: clamp(1.6rem, 4vw, 2.3rem);
+      font-weight: 600;
+      line-height: 1.25;
+      color: var(--gray-900);
+      max-width: 680px;
+      margin: 0 auto 1.75rem;
+    }
+
+    .hero-title .brand { color: var(--blue); font-style: italic; }
+
+    /* ── Authors ── */
+    .authors { margin-bottom: 1.5rem; }
+    .authors-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.15rem 0.1rem;
+      font-size: 0.95rem;
+      color: var(--gray-800);
+    }
+    .author { white-space: nowrap; padding: 0 0.15rem; }
+    .author sup { color: var(--blue); font-size: 0.7rem; font-weight: 600; }
+
+    .affiliations {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.25rem 1rem;
+      font-size: 0.83rem;
+      color: var(--gray-600);
+      margin-top: 0.6rem;
+    }
+    .affil sup { color: var(--blue); font-size: 0.7rem; font-weight: 600; }
+
+    /* ── Buttons ── */
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.55rem 1.3rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: opacity .15s, transform .1s;
+      cursor: pointer;
+    }
+    .btn:hover { opacity: .88; transform: translateY(-1px); text-decoration: none; }
+
+    .btn-primary {
+      background: var(--blue);
+      color: #fff;
+    }
+    .btn-outline {
+      border: 2px solid var(--blue);
+      color: var(--blue);
+      background: #fff;
+    }
+    .btn-dark {
+      background: var(--gray-900);
+      color: #fff;
+    }
+    .btn-green {
+      background: #0d9488;
+      color: #fff;
+    }
+    .btn-red {
+      background: #dc2626;
+      color: #fff;
+    }
+    .btn-amber {
+      background: #d97706;
+      color: #fff;
+    }
+    .btn-purple {
+      background: #7c3aed;
+      color: #fff;
+    }
+
+    /* ── Coming-soon notice ── */
+    .coming-soon {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      border-left: 4px solid #f59e0b;
+      border-radius: var(--radius);
+      padding: 1rem 1.25rem;
+      margin-top: 1.5rem;
+      text-align: left;
+    }
+    .coming-soon-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 0.05rem; }
+    .coming-soon-body { font-size: 0.88rem; color: #78350f; line-height: 1.55; }
+    .coming-soon-body strong { color: #92400e; }
+
+    /* ── Video embed ── */
+    .video-section { background: var(--gray-50); }
+    .video-wrap {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      border-radius: var(--radius);
+      box-shadow: 0 4px 24px rgba(0,0,0,.12);
+    }
+    .video-wrap iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      border: 0;
+      border-radius: var(--radius);
+    }
+
+    /* ── Abstract ── */
+    .abstract-text {
+      font-family: 'Source Serif 4', serif;
+      font-size: 1.02rem;
+      line-height: 1.8;
+      color: var(--gray-800);
+      background: var(--gray-50);
+      border-left: 4px solid var(--blue);
+      padding: 1.5rem 1.75rem;
+      border-radius: 0 var(--radius) var(--radius) 0;
+    }
+
+    /* ── Figure ── */
+    .figure-wrap {
+      margin: 1.5rem 0;
+    }
+
+    .figure-caption {
+      font-size: 0.85rem;
+      color: var(--gray-600);
+      text-align: center;
+      margin-top: 0.75rem;
+      line-height: 1.5;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ── Pipeline steps ── */
+    .steps {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+
+    .step {
+      flex: 0 0 calc(25% - 0.75rem);
+      background: var(--blue-pale);
+      border-radius: var(--radius);
+      padding: 1.1rem 1rem;
+      text-align: center;
+    }
+
+    .step-icon {
+      font-size: 1.6rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .step-title {
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: var(--blue-dark);
+      margin-bottom: 0.3rem;
+    }
+
+    .step-desc {
+      font-size: 0.78rem;
+      color: var(--gray-600);
+      line-height: 1.4;
+    }
+
+    /* ── Contributions ── */
+    .contrib-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1rem;
+      margin-top: 1.25rem;
+    }
+
+    .contrib-card {
+      background: var(--gray-50);
+      border: 1px solid var(--gray-200);
+      border-top: 3px solid var(--blue);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+    }
+
+    .contrib-card h3 {
+      margin-top: 0;
+      font-size: 0.95rem;
+      color: var(--blue-dark);
+    }
+
+    .contrib-card p {
+      font-size: 0.87rem;
+      margin-bottom: 0;
+    }
+
+    /* ── Dataset table ── */
+    .table-wrap { overflow-x: auto; margin: 1.25rem 0; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+
+    thead { background: var(--blue); color: #fff; }
+    thead th { padding: 0.65rem 1rem; text-align: left; font-weight: 600; }
+    tbody tr:nth-child(even) { background: var(--gray-50); }
+    tbody td { padding: 0.55rem 1rem; color: var(--gray-700, #374151); border-bottom: 1px solid var(--gray-200); }
+    tfoot td { padding: 0.55rem 1rem; font-style: italic; color: var(--gray-600); font-size: 0.82rem; }
+
+    /* ── Results metrics ── */
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      margin: 1.25rem 0;
+    }
+
+    .metric-card {
+      background: var(--gray-50);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius);
+      padding: 1.1rem 1rem;
+      text-align: center;
+    }
+
+    .metric-value {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--blue);
+      line-height: 1;
+    }
+
+    .metric-label {
+      font-size: 0.82rem;
+      color: var(--gray-600);
+      margin-top: 0.35rem;
+    }
+
+    /* ── BibTeX ── */
+    pre {
+      background: var(--gray-900);
+      color: #e5e7eb;
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      font-size: 0.83rem;
+      overflow-x: auto;
+      line-height: 1.6;
+    }
+
+    .copy-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: var(--gray-200);
+      border: none;
+      border-radius: 6px;
+      padding: 0.35rem 0.8rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      float: right;
+      margin-bottom: 0.75rem;
+      color: var(--gray-800);
+      transition: background .15s;
+    }
+    .copy-btn:hover { background: var(--gray-300, #d1d5db); }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--gray-900);
+      color: #9ca3af;
+      text-align: center;
+      padding: 2rem 1.5rem;
+      font-size: 0.83rem;
+    }
+    footer a { color: #93c5fd; }
+
+    /* ── Responsive ── */
+    @media (max-width: 600px) {
+      .step { flex: 0 0 calc(50% - 0.5rem); }
+      .contrib-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ───────────── HERO ───────────── -->
+<header class="hero">
+  <div class="container">
+    <div class="conference-badge">
+      <i class="fas fa-award"></i> CVPR 2026
+    </div>
+
+    <h1 class="hero-title">
+      <span class="brand">wrivinder</span>: Towards Spatial Intelligence for
+      Geo-locating Ground Images onto Satellite Imagery
+    </h1>
+
+    <div class="authors">
+      <div class="authors-list">
+        <span class="author">Chandrakanth Gudavalli<sup>1</sup>,</span>
+        <span class="author">Tajuddin Manhar Mohammed<sup>1</sup>,</span>
+        <span class="author">Abhay Yadav<sup>2</sup>,</span>
+        <span class="author">Ananth Vishnu Bhaskar<sup>1</sup>,</span>
+        <span class="author">Hardik Prajapati<sup>1</sup>,</span>
+        <span class="author">Cheng Peng<sup>2</sup>,</span>
+        <span class="author">Rama Chellappa<sup>2</sup>,</span>
+        <span class="author">Shivkumar Chandrasekaran<sup>1,3</sup>,</span>
+        <span class="author">B. S. Manjunath<sup>1,3</sup></span>
+      </div>
+      <div class="affiliations">
+        <span class="affil"><sup>1</sup>Mayachitra, Inc.</span>
+        <span class="affil"><sup>2</sup>Johns Hopkins University</span>
+        <span class="affil"><sup>3</sup>University of California Santa Barbara</span>
+      </div>
+    </div>
+
+    <div class="buttons">
+      <a class="btn btn-primary" href="https://openaccess.thecvf.com/content/CVPR2026/html/Gudavalli_WRIVINDER_Towards_Spatial_Intelligence_for_Geo-locating_Ground_Images_onto_Satellite_CVPR_2026_paper.html" target="_blank">
+        <i class="fas fa-file-pdf"></i> Paper
+      </a>
+      <a class="btn btn-red" href="https://www.youtube.com/watch?v=BHAm2_Y5P8c" target="_blank">
+        <i class="fab fa-youtube"></i> Video
+      </a>
+      <a class="btn btn-amber" href="https://olucdenver-my.sharepoint.com/:p:/g/personal/chandrakanth_gudavalli_ucdenver_edu/IQDoYG9ffYrJQ7s1XTXnEuHjAfShZlWCvLaYRKBpSTM61Zs?e=k7uu72" target="_blank">
+        <i class="fas fa-person-chalkboard"></i> Slides
+      </a>
+      <a class="btn btn-purple" href="https://acrobat.adobe.com/id/urn:aaid:sc:VA6C2:b1869818-09b6-465f-815a-53b6f9fb834a" target="_blank">
+        <i class="fas fa-image"></i> Poster
+      </a>
+    </div>
+
+    <div class="coming-soon" style="max-width:600px;margin-left:auto;margin-right:auto;">
+      <div class="coming-soon-icon">🔒</div>
+      <div class="coming-soon-body">
+        <strong>Code &amp; Dataset — Coming Soon.</strong>
+        We are actively working to release the Wrivinder codebase and the MC-Sat dataset.
+        The release is currently going through an <strong>internal approval process</strong> and we are
+        resolving <strong>licensing issues</strong> to make everything available under a permissive,
+        license-free terms. We will update this page as soon as it is ready.
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ───────────── VIDEO ───────────── -->
+<section class="video-section">
+  <div class="container">
+    <h2>Video Overview</h2>
+    <div class="video-wrap">
+      <iframe src="https://www.youtube.com/embed/BHAm2_Y5P8c"
+              title="Wrivinder – CVPR 2026 Overview"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen></iframe>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────── TEASER ───────────── -->
+<section>
+  <div class="container">
+    <div class="figure-wrap">
+      <img src="static/images/sat_aligner_intro__with_zeniths.png"
+           alt="Overview of the satellite-to-ground image alignment pipeline" />
+      <p class="figure-caption">
+        <strong>Overview of the pipeline.</strong>
+        Directly aligning ground images to satellite views is impractical due to large viewpoint and scale differences.
+        <em>Wrivinder</em> aggregates information from multiple ground images to reconstruct a 3D scene,
+        generates a zenith-view rendering, and aligns it to the satellite image using estimated metric dimensions.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────── ABSTRACT ───────────── -->
+<section>
+  <div class="container">
+    <h2>Abstract</h2>
+    <div class="abstract-text">
+      Aligning ground-level imagery with geo-registered satellite maps is crucial for mapping, navigation,
+      and situational awareness, yet remains challenging under large viewpoint gaps or when GPS is unreliable.
+      We introduce <strong>Wrivinder</strong>, a zero-shot, geometry-driven framework that aggregates multiple
+      ground photographs to reconstruct a consistent 3D scene and align it with overhead satellite imagery.
+      Wrivinder combines SfM reconstruction, 3D Gaussian Splatting, semantic grounding, and monocular
+      depth–based metric cues to produce a stable zenith-view rendering that can be directly matched to
+      satellite context for metrically accurate camera geo-localization. To support systematic evaluation
+      of this task—which lacks suitable benchmarks—we also release <strong>MC-Sat</strong>, a curated
+      dataset linking multi-view ground imagery with geo-registered satellite tiles across diverse outdoor
+      environments. Together, Wrivinder and MC-Sat provide a first comprehensive baseline and testbed for
+      studying geometry-centered cross-view alignment without paired supervision. In zero-shot experiments,
+      Wrivinder achieves sub-30&nbsp;m geolocation accuracy across both dense and large-area scenes,
+      highlighting the promise of geometry-based aggregation for robust ground-to-satellite localization.
+    </div>
+  </div>
+</section>
+
+<!-- ───────────── CONTRIBUTIONS ───────────── -->
+<section>
+  <div class="container">
+    <h2>Contributions</h2>
+    <div class="contrib-grid">
+      <div class="contrib-card">
+        <h3><i class="fas fa-database" style="margin-right:.4rem"></i>MC-Sat Dataset</h3>
+        <p>
+          The first dataset linking multi-view ground imagery, SfM/3DGS reconstructions, and
+          geo-registered satellite context across diverse outdoor environments—15 scenes, ~20K ground
+          images paired with NAIP and ESRI aerial tiles.
+        </p>
+      </div>
+      <div class="contrib-card">
+        <h3><i class="fas fa-cubes" style="margin-right:.4rem"></i>Wrivinder Framework</h3>
+        <p>
+          A geometry-driven, zero-shot framework that reconstructs a consistent 3D scene from multiple
+          ground images and aligns it with overhead satellite imagery. Integrates SfM, 3DGS, semantic
+          grounding, and metric depth cues—no paired supervision required.
+        </p>
+      </div>
+      <div class="contrib-card">
+        <h3><i class="fas fa-crosshairs" style="margin-right:.4rem"></i>Self-Supervised DTM</h3>
+        <p>
+          A lightweight, test-time self-supervised Deep Template Matcher (DTM) that aligns zenith-view
+          3DGS renderings to satellite images, enabling robust cross-view correspondence under extreme
+          viewpoint changes without ground–satellite training pairs.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────── METHOD ───────────── -->
+<section>
+  <div class="container">
+    <h2>Method</h2>
+    <p>
+      Wrivinder uses <em>geometry as the bridge</em> between drastically different viewpoints. Instead of
+      learning cross-domain correspondences from paired data, it reconstructs a 3D representation of the
+      scene and aligns it directly to the satellite frame through geometric projection and self-supervised
+      matching.
+    </p>
+
+    <!-- Pipeline steps -->
+    <div class="steps">
+      <div class="step">
+        <div class="step-icon">🗺️</div>
+        <div class="step-title">SfM Reconstruction</div>
+        <div class="step-desc">HLOC + COLMAP / GLOMAP estimate camera poses &amp; a sparse 3D point cloud.</div>
+      </div>
+      <div class="step">
+        <div class="step-icon">✨</div>
+        <div class="step-title">3D Gaussian Splatting</div>
+        <div class="step-desc">Octree-GS densifies the scene into a high-fidelity photorealistic model.</div>
+      </div>
+      <div class="step">
+        <div class="step-icon">⬆️</div>
+        <div class="step-title">Zenith Viewpoint</div>
+        <div class="step-desc">Semantic segmentation + PCA estimates the vertical axis for a top-down render.</div>
+      </div>
+      <div class="step">
+        <div class="step-icon">📐</div>
+        <div class="step-title">Metric Mapper</div>
+        <div class="step-desc">Monocular depth (DepthPro / PatchFusion) + RANSAC recovers physical scale in meters.</div>
+      </div>
+      <div class="step">
+        <div class="step-icon">🔍</div>
+        <div class="step-title">Deep Template Matcher</div>
+        <div class="step-desc">Self-supervised Siamese ResNet-18 localizes the zenith render on the satellite tile.</div>
+      </div>
+      <div class="step">
+        <div class="step-icon">📍</div>
+        <div class="step-title">Camera Geolocator</div>
+        <div class="step-desc">Back-projection through 3DGS + RANSAC similarity transform yields GPS for all cameras.</div>
+      </div>
+    </div>
+
+    <!-- Pipeline figure -->
+    <div class="figure-wrap">
+      <img src="static/images/sat_sfm_pipeline.png"
+           alt="Wrivinder pipeline overview" />
+      <p class="figure-caption">
+        <strong>Wrivinder pipeline.</strong>
+        Given an unordered set of ground images, the pipeline reconstructs a sparse 3D scene via SfM,
+        densifies it with 3D Gaussian Splatting, generates a zenith render, estimates metric scale,
+        aligns to the satellite image via DTM, and back-projects correspondences to recover camera GPS.
+      </p>
+    </div>
+
+    <!-- Intermediate outputs figure -->
+    <div class="figure-wrap">
+      <img src="static/images/sat_aligner_blocks.png"
+           alt="Key intermediate outputs of Wrivinder" />
+      <p class="figure-caption">
+        <strong>Key intermediate outputs.</strong>
+        From left to right: semantic segmentation maps, SfM point cloud, semantified 3D reconstruction,
+        monocular metric depth maps, and the resulting metric-scaled zenith render.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────── DATASET ───────────── -->
+<section>
+  <div class="container">
+    <h2>MC-Sat Dataset</h2>
+    <p>
+      <strong>MC-Sat</strong> (Multi-view Capture–Satellite) is the first unified benchmark that jointly
+      links multi-view ground imagery, 3D reconstructions, and geo-registered satellite context across
+      diverse outdoor environments. It fills a critical gap in cross-view geo-localization benchmarks by
+      enabling metrically evaluated, multi-view, and truly zero-shot ground-to-satellite alignment.
+    </p>
+
+    <div class="figure-wrap">
+      <img src="static/images/DatasetsFigure_with_updated_Satellite_Images.png"
+           alt="MC-Sat dataset visualization" />
+      <p class="figure-caption">
+        <strong>MC-Sat scenes.</strong> Ground imagery paired with corresponding geo-registered satellite
+        tiles across diverse outdoor environments—campuses, urban areas, and training sites.
+      </p>
+    </div>
+
+    <h3>Ground Image Sources</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Dataset</th>
+            <th># Scenes</th>
+            <th># Images</th>
+            <th>Imagery Type</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>ULTRAA</strong></td>
+            <td>3</td>
+            <td>1,028</td>
+            <td>Ground</td>
+          </tr>
+          <tr>
+            <td><strong>VisymScenes</strong></td>
+            <td>149</td>
+            <td>258K</td>
+            <td>Ground</td>
+          </tr>
+          <tr>
+            <td><strong>ACC-NVS1</strong></td>
+            <td>6</td>
+            <td>148K</td>
+            <td>Ground + Airborne</td>
+          </tr>
+          <tr>
+            <td><strong>JHU-Ames</strong></td>
+            <td>1</td>
+            <td>1,717</td>
+            <td>Ground + Airborne</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="4">
+              Satellite imagery: USDA NAIP (0.6–1.0 m/px, continental US) + ESRI World Imagery (global).
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <p>
+      MC-Sat comprises <strong>15 multi-view scenes</strong> (∼20K ground images) spanning two complementary
+      scene types: <em>Image Density</em> scenes (many views of a compact region such as a building entrance
+      or courtyard) and <em>Reconstructed Area</em> scenes (campus-scale environments with broad spatial extent).
+      Together they provide a rigorous testbed for both fine-grained and large-area geo-localization.
+    </p>
+  </div>
+</section>
+
+<!-- ───────────── RESULTS ───────────── -->
+<section>
+  <div class="container">
+    <h2>Results</h2>
+
+    <div class="metrics">
+      <div class="metric-card">
+        <div class="metric-value">&lt;30 m</div>
+        <div class="metric-label">Zero-shot geolocation accuracy (sub-30 m across all scenes)</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">Zero-shot</div>
+        <div class="metric-label">No paired ground–satellite training data required</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">15</div>
+        <div class="metric-label">Diverse outdoor scenes evaluated on MC-Sat</div>
+      </div>
+    </div>
+
+    <div class="figure-wrap">
+      <img src="static/images/zenith_renderings_portrait.png"
+           alt="Satellite–render pairs for several MC-Sat scenes" />
+      <p class="figure-caption">
+        <strong>Satellite–render pairs.</strong>
+        For each scene, the satellite view (with blue dots marking ground-truth camera locations)
+        is shown alongside the corresponding 3DGS zenith rendering produced by Wrivinder.
+        Gaps and blurring in the reconstruction arise from unobserved surfaces (e.g., rooftops)
+        and are the primary source of higher errors in large-area scenes.
+      </p>
+    </div>
+
+    <p>
+      Wrivinder is evaluated using three metrics: <strong>Mean Geolocation RMSE</strong> (haversine distance
+      between predicted and ground-truth camera coordinates), <strong>67th Percentile RMSE</strong> (robust
+      measure less sensitive to outliers), and <strong>Centroid Error</strong> (large-scale drift indicator).
+      Performance is strongest on dense <em>Image Density</em> scenes; larger <em>Reconstructed Area</em>
+      scenes with unobserved surfaces present an open challenge for future work.
+    </p>
+  </div>
+</section>
+
+<!-- ───────────── BIBTEX ───────────── -->
+<section>
+  <div class="container">
+    <h2>BibTeX</h2>
+    <p>If you find our work useful, please consider citing:</p>
+    <button class="copy-btn" onclick="copyBib()" id="copyBtn">
+      <i class="fas fa-copy"></i> Copy
+    </button>
+    <pre id="bibtex">@InProceedings{gudavalli2026wrivinder,
+  title     = {wrivinder: Towards Spatial Intelligence for Geo-locating
+               Ground Images onto Satellite Imagery},
+  author    = {Gudavalli, Chandrakanth and
+               Mohammed, Tajuddin Manhar and
+               Yadav, Abhay and
+               Bhaskar, Ananth Vishnu and
+               Prajapati, Hardik and
+               Peng, Cheng and
+               Chellappa, Rama and
+               Chandrasekaran, Shivkumar and
+               Manjunath, B. S.},
+  booktitle = {Proceedings of the IEEE/CVF Conference on
+               Computer Vision and Pattern Recognition (CVPR)},
+  year      = {2026},
+}</pre>
+  </div>
+</section>
+
+<!-- ───────────── ACKNOWLEDGEMENTS ───────────── -->
+<section>
+  <div class="container">
+    <h2>Acknowledgements</h2>
+    <p>
+      This research is supported by the Intelligence Advanced Research Projects Activity (IARPA) via the
+      Department of Interior / Interior Business Center (DOI/IBC) contract number 140D0423C0076.
+      The U.S. Government is authorized to reproduce and distribute reprints for Governmental purposes
+      notwithstanding any copyright annotation thereon. The views and conclusions contained herein are
+      those of the authors and should not be interpreted as necessarily representing the official policies
+      or endorsements, either expressed or implied, of IARPA, DOI/IBC, or the U.S. Government.
+      We would like to thank Jason Bunk for insights and assistance during the initial phase of this project.
+    </p>
+  </div>
+</section>
+
+<!-- ───────────── FOOTER ───────────── -->
+<footer>
+  <p>
+    &copy; 2026 Mayachitra, Inc. &middot; Johns Hopkins University &middot; UC Santa Barbara &nbsp;|&nbsp;
+    Page template inspired by <a href="https://nerfies.github.io" target="_blank">Nerfies</a>
+  </p>
+</footer>
+
+<script>
+  function copyBib() {
+    const text = document.getElementById('bibtex').innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = document.getElementById('copyBtn');
+      btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+      setTimeout(() => {
+        btn.innerHTML = '<i class="fas fa-copy"></i> Copy';
+      }, 2000);
+    });
+  }
+</script>
+
+</body>
+</html>
